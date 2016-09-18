@@ -1,0 +1,29 @@
+﻿@model Lombiq.RepositoryMarkdownContent.ViewModels.MarkdownRepoPartEditorViewModel
+
+<fieldset>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.MarkdownRepoPart.ContentType, T("Content Type"))
+            @Html.DropDownList("ContentType", Model.AccessibleContentTypes)
+            @Html.Hint(T("A content item with this type will be created. Only types with attached MarkdownPagePart can be selected."))
+        </li>
+        <li>
+            @Html.LabelFor(m => m.MarkdownRepoPart.Username, T("Username"))
+            @Html.TextBox("Username", Model.MarkdownRepoPart.Username, new { @class = "text singleline" })
+            @Html.ValidationMessageFor(m => m.MarkdownRepoPart.Username)
+            @Html.Hint(T("Name of the user used to authenticate with the APIs, eg.: the GitHub API. So in case of a GitHub repo, please provide a GitHub username."))
+        </li>
+        <li>
+            @Html.LabelFor(m => m.MarkdownRepoPart.Password, T("Password"))
+            @Html.Password("Password")
+            @Html.ValidationMessageFor(m => m.MarkdownRepoPart.Password)
+            @Html.Hint(T("The password corresponding to the username."))
+        </li>
+        <li>
+            @Html.LabelFor(m => m.MarkdownRepoPart.AccessToken, T("Access Token"))
+            @Html.Password("AccessToken")
+            @Html.ValidationMessageFor(m => m.MarkdownRepoPart.AccessToken)
+            @Html.Hint(T("An OAuth access token. If you provide an access token for a GitHub repo then you don't need to provide a username/password. You can easily create a personal access token from under <a href=\"https://github.com/settings/tokens\" target=\"blank\">https://github.com/settings/tokens</a> (at least the \"repo\" scope should be selected."))
+        </li>
+    </ol>
+</fieldset>

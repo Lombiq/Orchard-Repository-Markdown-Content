@@ -1,0 +1,13 @@
+﻿Name: Repository Markdown Content
+AntiForgery: enabled
+Author: Lombiq
+Website: https://lombiq.com/
+Version: 1.0
+OrchardVersion: 1.10
+Description: Synchronizes Markdown files from a repository to convert them into content items.
+Features:
+    Lombiq.RepositoryMarkdownContent:
+        Name: Repository Markdown Content
+        Category: Content
+        Description: Synchronizes Markdown files from a repository to convert them into content items.
+        Dependencies: Markdown, Orchard.Fields, Piedone.HelpfulLibraries.Contents, Piedone.HelpfulLibraries.Tasks

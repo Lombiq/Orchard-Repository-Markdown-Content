@@ -1,0 +1,16 @@
+﻿@model Lombiq.RepositoryMarkdownContent.ViewModels.MarkdownPagePartEditorViewModel
+
+<fieldset>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.MarkdownPagePart.MarkdownFilePath, T("Markdown File Path"))
+            @Model.MarkdownPagePart.MarkdownFilePath
+            @Html.Hint(T("The relative path of the .md file in the repo."))
+        </li>
+        <li>
+            @Html.Label(T("Markdown Repo Url").Text)
+            @Model.MarkdownRepoUrl
+            @Html.Hint(T("The url of the repo where the .md file came from."))
+        </li>
+    </ol>
+</fieldset>
