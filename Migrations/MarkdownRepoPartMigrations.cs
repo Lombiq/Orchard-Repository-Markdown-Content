@@ -59,6 +59,7 @@ namespace Lombiq.RepositoryMarkdownContent.Migrations
                     .Creatable()
                     .Listable()
                     .Securable()
+                    .Draftable(false)
                     .DisplayedAs("Markdown Repo")
                     .WithPart("CommonPart",
                         part => part
