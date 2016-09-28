@@ -13,11 +13,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Orchard.Localization;
 
 namespace Lombiq.RepositoryMarkdownContent.Handlers
 {
     public class MarkdownRepoPartHandler : ContentHandler
     {
+        public Localizer T { get; set; }
+
+
         public MarkdownRepoPartHandler(
             IMarkdownContentItemManager markdownContentItemManager,
             IRepository<MarkdownRepoPartRecord> repository,
@@ -27,6 +31,7 @@ namespace Lombiq.RepositoryMarkdownContent.Handlers
             IEncryptionService encryptionService)
         {
             Filters.Add(StorageFilter.For(repository));
+            T = NullLocalizer.Instance;
 
             OnActivated<MarkdownRepoPart>((context, part) =>
             {
@@ -99,6 +104,18 @@ namespace Lombiq.RepositoryMarkdownContent.Handlers
                             clock.UtcNow.AddMinutes(1),
                             part.ContentItem);
             });
+        }
+
+
+        protected override void GetItemMetadata(GetContentItemMetadataContext context)
+        {
+            var part = context.ContentItem.As<MarkdownRepoPart>();
+
+            if (part != null && !string.IsNullOrEmpty(part.RepoUrl))
+            {
+                var folderName = string.IsNullOrEmpty(part.FolderName) ? string.Empty : "/" + part.FolderName;
+                context.Metadata.DisplayText = T("{0}{1}", part.RepoUrl.TrimEnd('/'), folderName).Text;
+            }
         }
     }
 }
