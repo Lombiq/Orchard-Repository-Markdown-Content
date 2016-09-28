@@ -59,8 +59,8 @@ namespace Lombiq.RepositoryMarkdownContent.Migrations
                     .Creatable()
                     .Listable()
                     .Securable()
-                    .Draftable(false)
                     .DisplayedAs("Markdown Repo")
+                    .WithPart("IdentityPart")
                     .WithPart("CommonPart",
                         part => part
                             .WithSetting("OwnerEditorSettings.ShowOwnerEditor", "False")
