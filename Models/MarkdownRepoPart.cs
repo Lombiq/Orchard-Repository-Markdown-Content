@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Lombiq.RepositoryMarkdownContent.Models
 {
-    public class MarkdownRepoPart : ContentPart<MarkdownRepoPartRecord>
+    public class MarkdownRepoPart : ContentPart
     {
         public string LatestProcessedCommitHash
         {
@@ -26,14 +26,14 @@ namespace Lombiq.RepositoryMarkdownContent.Models
 
         public string Username
         {
-            get { return Retrieve(x => x.Username); }
-            set { Store(x => x.Username, value); }
+            get { return this.Retrieve(x => x.Username); }
+            set { this.Store(x => x.Username, value); }
         }
 
         public string EncodedPassword
         {
-            get { return Retrieve(x => x.EncodedPassword); }
-            set { Store(x => x.EncodedPassword, value); }
+            get { return this.Retrieve(x => x.EncodedPassword); }
+            set { this.Store(x => x.EncodedPassword, value); }
         }
 
         private readonly LazyField<string> _password = new LazyField<string>();
@@ -42,8 +42,8 @@ namespace Lombiq.RepositoryMarkdownContent.Models
 
         public string EncodedAccessToken
         {
-            get { return Retrieve(x => x.EncodedAccessToken); }
-            set { Store(x => x.EncodedAccessToken, value); }
+            get { return this.Retrieve(x => x.EncodedAccessToken); }
+            set { this.Store(x => x.EncodedAccessToken, value); }
         }
 
         private readonly LazyField<string> _accessToken = new LazyField<string>();
@@ -107,14 +107,5 @@ namespace Lombiq.RepositoryMarkdownContent.Models
                     FieldNames.DeleteMarkdownPagesOnRemoving).Value;
             }
         }
-    }
-
-    public class MarkdownRepoPartRecord : ContentPartRecord
-    {
-        public virtual string Username { get; set; }
-        [DataType(DataType.Password), StringLengthMax]
-        public virtual string EncodedPassword { get; set; }
-        [DataType(DataType.Password), StringLengthMax]
-        public virtual string EncodedAccessToken { get; set; }
     }
 }

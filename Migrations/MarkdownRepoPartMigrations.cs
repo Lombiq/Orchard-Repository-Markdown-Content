@@ -14,13 +14,6 @@ namespace Lombiq.RepositoryMarkdownContent.Migrations
     {
         public int Create()
         {
-            SchemaBuilder.CreateTable(typeof(MarkdownRepoPartRecord).Name,
-                table => table
-                    .ContentPartRecord()
-                    .Column<string>("Username")
-                    .Column<string>("EncodedPassword", column => column.Unlimited())
-                    .Column<string>("EncodedAccessToken", column => column.Unlimited()));
-
             ContentDefinitionManager.AlterPartDefinition(
                 typeof(MarkdownRepoPart).Name,
                 part => part

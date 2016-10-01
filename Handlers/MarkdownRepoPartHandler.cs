@@ -24,13 +24,11 @@ namespace Lombiq.RepositoryMarkdownContent.Handlers
 
         public MarkdownRepoPartHandler(
             IMarkdownContentItemManager markdownContentItemManager,
-            IRepository<MarkdownRepoPartRecord> repository,
             IScheduledTaskManager scheduledTaskManager,
             IClock clock,
             IContentManager contentManager,
             IEncryptionService encryptionService)
         {
-            Filters.Add(StorageFilter.For(repository));
             T = NullLocalizer.Instance;
 
             OnActivated<MarkdownRepoPart>((context, part) =>

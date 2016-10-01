@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Orchard.ContentManagement.Handlers;
 
 namespace Lombiq.RepositoryMarkdownContent.Drivers
 {
@@ -69,6 +70,16 @@ namespace Lombiq.RepositoryMarkdownContent.Drivers
             }
 
             return Editor(part, shapeHelper);
+        }
+
+        protected override void Exporting(MarkdownRepoPart part, ExportContentContext context)
+        {
+            ExportInfoset(part, context);
+        }
+
+        protected override void Importing(MarkdownRepoPart part, ImportContentContext context)
+        {
+            ImportInfoset(part, context);
         }
 
 
