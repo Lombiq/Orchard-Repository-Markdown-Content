@@ -10,5 +10,6 @@ namespace Lombiq.RepositoryMarkdownContent.Constants
         public const string Added = "added";
         public const string Modified = "modified";
         public const string Removed = "removed";
+        public const string Renamed = "renamed";
     }
 }
