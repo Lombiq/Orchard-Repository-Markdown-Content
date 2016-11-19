@@ -194,6 +194,16 @@ namespace Lombiq.RepositoryMarkdownContent.Services
                                     changedFiles.Add(file);
                                 }
                             }
+                            else if (file.Status == GitHubCommitStatus.Added)
+                            {
+                                changedFiles.Remove(sameFileThatChangedPreviously);
+                                changedFiles.Add(file);
+                            }
+                            else if (file.Status == GitHubCommitStatus.Renamed)
+                            {
+                                changedFiles.Add(file);
+                            }
+
                         }
                         else
                         {
@@ -218,6 +228,10 @@ namespace Lombiq.RepositoryMarkdownContent.Services
                             _markdownContentItemManager.Delete(markdownRepoPart, changedFile.Filename);
                             break;
                         case GitHubCommitStatus.Modified:
+                            _markdownContentItemManager.Modify(markdownRepoPart, decodedString, changedFile.Filename);
+                            break;
+                        case GitHubCommitStatus.Renamed:
+                            _markdownContentItemManager.Rename(markdownRepoPart, changedFile.Filename, changedFile.PreviousFileName);
                             _markdownContentItemManager.Modify(markdownRepoPart, decodedString, changedFile.Filename);
                             break;
                     }
