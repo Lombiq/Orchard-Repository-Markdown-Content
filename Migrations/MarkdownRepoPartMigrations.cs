@@ -14,13 +14,6 @@ namespace Lombiq.RepositoryMarkdownContent.Migrations
     {
         public int Create()
         {
-            SchemaBuilder.CreateTable(typeof(MarkdownRepoPartRecord).Name,
-                table => table
-                    .ContentPartRecord()
-                    .Column<string>("Username")
-                    .Column<string>("EncodedPassword", column => column.Unlimited())
-                    .Column<string>("EncodedAccessToken", column => column.Unlimited()));
-
             ContentDefinitionManager.AlterPartDefinition(
                 typeof(MarkdownRepoPart).Name,
                 part => part
@@ -60,6 +53,7 @@ namespace Lombiq.RepositoryMarkdownContent.Migrations
                     .Listable()
                     .Securable()
                     .DisplayedAs("Markdown Repo")
+                    .WithPart("IdentityPart")
                     .WithPart("CommonPart",
                         part => part
                             .WithSetting("OwnerEditorSettings.ShowOwnerEditor", "False")

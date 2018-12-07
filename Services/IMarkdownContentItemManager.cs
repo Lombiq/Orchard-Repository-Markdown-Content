@@ -38,6 +38,15 @@ namespace Lombiq.RepositoryMarkdownContent.Services
         void Modify(MarkdownRepoPart markdownRepoPart, string markdownText, string mdFileRelativePath);
 
         /// <summary>
+        /// Rename the .md file.
+        /// Also fires custom events.
+        /// </summary>
+        /// <param name="markdownRepoPart">The corresponding MarkdownRepoPart.</param>
+        /// <param name="mdFileRelativePath">The new relative path of the .md file in the repo.</param>
+        /// <param name="previousMdFileRelativePath">The previous relative path of the .md file in the repo.</param>
+        void Rename(MarkdownRepoPart markdownRepoPart, string mdFileRelativePath, string previousMdFileRelativePath);
+
+        /// <summary>
         /// Deletes all corresponding content items with MarkdownPagePart.
         /// </summary>
         /// <param name="markdownRepoPart">The MarkdownRepoPart.</param>

@@ -30,6 +30,13 @@ namespace Lombiq.RepositoryMarkdownContent.Services
 
         public void Create(MarkdownRepoPart markdownRepoPart, string markdownText, string mdFileRelativePath)
         {
+            var markdownPagesToDelete = GetMarkdownRepoContentItem(markdownRepoPart, mdFileRelativePath);
+
+            if (markdownPagesToDelete.Any())
+            {
+                Modify(markdownRepoPart, markdownText, mdFileRelativePath);
+                return;
+            }
             var markdownContentItem = _contentManager.New(markdownRepoPart.ContentType);
 
             if (!markdownContentItem.Has(typeof(BodyPart)))
@@ -62,14 +69,10 @@ namespace Lombiq.RepositoryMarkdownContent.Services
 
         public void Delete(MarkdownRepoPart markdownRepoPart, string mdFileRelativePath)
         {
-            var markdownPagesToDelete = _contentManager
-                .Query(markdownRepoPart.ContentType)
-                .Where<MarkdownPagePartRecord>(
-                    record => record.MarkdownRepoId == markdownRepoPart.ContentItem.Id &&
-                    record.MarkdownFilePath == mdFileRelativePath);
+            var markdownPagesToDelete = GetMarkdownRepoContentItem(markdownRepoPart, mdFileRelativePath);
 
             // In case of duplicates we delete all of them.
-            foreach (var markdownPageToDelete in markdownPagesToDelete.List())
+            foreach (var markdownPageToDelete in markdownPagesToDelete)
             {
                 markdownPageToDelete.As<MarkdownPagePart>().DeletionAllowed = true;
                 // Firing event so custom extensions can make their own tasks.
@@ -82,19 +85,44 @@ namespace Lombiq.RepositoryMarkdownContent.Services
 
         public void Modify(MarkdownRepoPart markdownRepoPart, string markdownText, string mdFileRelativePath)
         {
-            var markdownPagesToModify = _contentManager
-                .Query(markdownRepoPart.ContentType)
-                .Where<MarkdownPagePartRecord>(
-                    record => record.MarkdownRepoId == markdownRepoPart.ContentItem.Id &&
-                    record.MarkdownFilePath == mdFileRelativePath);
+            var markdownPagesToModify = GetMarkdownRepoContentItem(markdownRepoPart, mdFileRelativePath);
 
             var first = true;
             // In case of duplicates we modify one and remove the duplicates.
-            foreach (var markdownPageToModify in markdownPagesToModify.List())
+            foreach (var markdownPageToModify in markdownPagesToModify)
             {
                 if (first)
                 {
                     markdownPageToModify.As<BodyPart>().Text = markdownText;
+
+                    // Firing event so custom extensions can make their own tasks.
+                    _markdownPageEventHandler
+                        .MarkdownPageModified(new MarkdownPageModifiedContext { ContentItem = markdownPageToModify });
+
+                    first = false;
+                }
+                else
+                {
+                    // Firing event so custom extensions can make their own tasks.
+                    _markdownPageEventHandler
+                        .MarkdownPageRemoving(new MarkdownPageRemovingContext { ContentItem = markdownPageToModify });
+
+                    _contentManager.Remove(markdownPageToModify);
+                }
+            }
+        }
+
+        public void Rename(MarkdownRepoPart markdownRepoPart, string mdFileRelativePath, string previousMdFileRelativePath)
+        {
+            var markdownPagesToModify = GetMarkdownRepoContentItem(markdownRepoPart, previousMdFileRelativePath);
+
+            var first = true;
+            // In case of duplicates we modify one and remove the duplicates.
+            foreach (var markdownPageToModify in markdownPagesToModify)
+            {
+                if (first)
+                {
+                    markdownPageToModify.As<MarkdownPagePart>().MarkdownFilePath = mdFileRelativePath;
 
                     // Firing event so custom extensions can make their own tasks.
                     _markdownPageEventHandler
@@ -126,6 +154,16 @@ namespace Lombiq.RepositoryMarkdownContent.Services
 
                 _contentManager.Remove(correspondingMarkdownPage);
             }
+        }
+
+
+        private IEnumerable<ContentItem> GetMarkdownRepoContentItem(MarkdownRepoPart markdownRepoPart, string mdFileRelativePath)
+        {
+            return _contentManager
+                .Query(markdownRepoPart.ContentType)
+                .Where<MarkdownPagePartRecord>(
+                    record => record.MarkdownRepoId == markdownRepoPart.ContentItem.Id &&
+                    record.MarkdownFilePath == mdFileRelativePath).List();
         }
     }
 }
