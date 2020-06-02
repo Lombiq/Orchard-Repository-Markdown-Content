@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lombiq.RepositoryMarkdownContent</RootNamespace>
     <AssemblyName>Lombiq.RepositoryMarkdownContent</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -27,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,9 +52,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Octokit, Version=0.22.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Octokit.0.22.0\lib\net45\Octokit.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Octokit, Version=0.47.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Octokit.0.47.0\lib\net46\Octokit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -136,11 +136,11 @@
     <Compile Include="ViewModels\MarkdownRepoPartEditorViewModel.cs" />
     <Content Include="Views\EditorTemplates\Parts.MarkdownRepo.cshtml" />
     <Content Include="Placement.info" />
-    <Content Include="packages.config" />
     <Content Include="Views\EditorTemplates\Parts.MarkdownPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Licence.md" />
+    <None Include="packages.config" />
     <None Include="Readme.md" />
   </ItemGroup>
   <PropertyGroup>
