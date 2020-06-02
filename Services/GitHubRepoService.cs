@@ -177,7 +177,7 @@ namespace Lombiq.RepositoryMarkdownContent.Services
                     {
                         if (!MarkdownRepoPartHelpers.FolderOrFileIsInRepoFolder(markdownRepoPart.FolderName, file.Filename)) continue;
 
-                        // If the file was modifyed in a previous commit, then this logic will take care of the status changes.
+                        // If the file was modified in a previous commit, then this logic will take care of the status changes.
                         var sameFileThatChangedPreviously = changedFiles
                             .FirstOrDefault(changedFile => changedFile.Sha == file.Sha);
                         if (sameFileThatChangedPreviously != null)
